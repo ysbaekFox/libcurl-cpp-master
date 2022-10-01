@@ -1,5 +1,4 @@
 # Index
-* * *
 - [1. Win64 Build](#Window\ Build\ Dependency)
 
 <br>
