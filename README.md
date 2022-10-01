@@ -1,9 +1,7 @@
 # Index
-- [1. Win64 Build](#Window\ Build\ Dependency)
+1. [Win64 Build](#-Window-Build-Dependency)
 
-<br>
 # Win64
-* * *
 
 ### Window Build Dependency
 - Perl 5.32 64bit
