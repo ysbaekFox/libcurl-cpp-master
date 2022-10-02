@@ -1,6 +1,6 @@
 # Index
-1. [Win64 Build](#-Window-Build-Dependency)
-2. [Linux Build](#-Linux-Build-Dependency)
+1. [Win64 Build](https://github.com/ysbaekFox/libcurl-cpp-master#win64y)
+2. [Linux Build](https://github.com/ysbaekFox/libcurl-cpp-master#linux)
 
 # Win64
 
