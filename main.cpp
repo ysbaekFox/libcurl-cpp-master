@@ -2,16 +2,18 @@
 #include <stdio.h>
 #include <curl/curl.h>
 
+#if defined(VC16)
 #include <Winsock2.h>
 #pragma comment(lib, "wldap32.lib")
 #pragma comment(lib, "Ws2_32.lib")
 #pragma comment(lib, "CRYPT32.lib")
 #pragma comment(lib, "Normaliz.lib")
+#endif
 
 int main()
 {
-	char* url_post = "https://www.example.com/";
-	char* url_get = "https://www.example.com/";
+	char* url_post = "www.google.com";
+	char* url_get = "www.google.com";
 	
 	CURL* curl;
 	CURLcode res;
