@@ -1,5 +1,6 @@
 # Index
 1. [Win64 Build](#-Window-Build-Dependency)
+2. [Linux Build](#-Linux-Build-Dependency)
 
 # Win64
 
@@ -7,6 +8,7 @@
 - Perl 5.32 64bit
 - NASM 2.15.05
 - openssl 1.1.1p
+- curl 7.85
 - Visual Studio 2019(VC 16)
 
 ### Window MSVC Build
@@ -52,3 +54,36 @@ C:\msys64\usr\bin 경로가 상단에 있을 경우 우선순위 변경 필요.
     ``` 
 - 3\) nmake /f Makefile.vc mode=static VC=16 WITH_DEVEL=../deps MACHINE=x64 WITH_PREFIX=builds
 - 4\) 빌드 완료 ( winbuild/builds 디렉토리 확인)
+
+
+# Linux
+
+### Linux Build Dependency
+- openssl 1.1.1p
+- gcc 9.4
+- Ubuntu 20.04.1
+- curl 7.85
+
+### Linux Build
+
+**1. openssl 설치**
+- https://github.com/openssl/openssl/releases/tag/OpenSSL_1_1_1p
+
+**2. openssl build**
+- ./config no-shared [no-zlib] (zlib 선택 사항)
+- make 입력
+- sudo make install 입력
+- /usr/local/lib 경로에 libcrypto, libssl 확인 (.so, .a)
+
+**3. libcurl 설치**
+- https://github.com/curl/curl/releases/tag/curl-7_85_0
+
+**4. libcurl build**
+- ./configure --disable-shared [--without-zlib] --with-openssl 입력 (zlib 선택 사항)
+- make 입력
+- make test 입력(선택 사항)
+- sudo make install 입력
+- /usr/local/lib 경로에 libcurl 확인 (.so, .a)
+
+**5. 주의사항**
+- cmake curl, ssl, crypto linking 할 때 순서 주의
