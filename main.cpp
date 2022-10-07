@@ -1,32 +1,44 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <curl/curl.h>
-
-#if defined(VC16)
-#include <Winsock2.h>
-#pragma comment(lib, "wldap32.lib")
-#pragma comment(lib, "Ws2_32.lib")
-#pragma comment(lib, "CRYPT32.lib")
-#pragma comment(lib, "Normaliz.lib")
-#endif
+#include <iostream>
+#include "libcurl_util.h"
 
 int main()
 {
-	char* url_post = "www.google.com";
-	char* url_get = "www.google.com";
-	
-	CURL* curl;
-	CURLcode res;
-	curl = curl_easy_init();
+	curl_global_init(CURL_GLOBAL_ALL);
 
-	struct curl_slist* list = NULL;
+	libcurl::utill::CurlBuilder builder;
+	builder.SetHost("www.google.com");
+	builder.SetScheme("https");
+	builder.SetHeader("Content-Type: application/x-www-form-urlencoded");
 
-	if (curl)
+	CURL* curl = builder.GetCurl();
+
+	curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+
+	// curl_easy_setopt(curl, CURLOPT_POST, 1L); ??
+	// curl_easy_setopt(curl, CURLOPT_POSTFIELDS, ""); ??
+
+#if 0 // stdout
+	curl_easy_setopt(curl, CURLOPT_WRITEHEADER, stdout);
+	curl_easy_setopt(curl, CURLOPT_WRITEDATA, stdout);
+#else // callback... not work
+	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, [](void* ptr, size_t size, size_t nmemb, std::string * stream)
 	{
-		curl_easy_setopt(curl, CURLOPT_URL, url_get);
-		res = curl_easy_perform(curl);
-		curl_easy_cleanup(curl);
+		size_t s_size = size * nmemb;
+		stream->assign((char*)ptr, (char*)ptr + s_size);
+		std::cout << *stream << std::endl;
+		return s_size;
+	});
+#endif
+
+	auto res = curl_easy_perform(curl);
+
+	if (res != CURLE_OK)
+	{
+		std::cout << "curl_easy_perform() failed: " << curl_easy_strerror(res) << std::endl;
 	}
+
+	curl_easy_cleanup(curl);
+	curl_global_cleanup();
 
 	return 0;
 }

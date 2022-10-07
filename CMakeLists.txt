@@ -32,5 +32,5 @@ endif()
 find_package(CURL REQUIRED)
 include_directories(${CURL_INCLUDE_DIR})
 
-add_executable(curl-exec "main.cpp")
+add_executable(curl-exec "main.cpp" "libcurl_util.cpp" "libcurl_util.h" )
 target_link_libraries(curl-exec ${CURL_LIBRARY})
